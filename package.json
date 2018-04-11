@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "postinstall": "psc-package install",
-    "clean": "rm -rf bower_components node_modules output && rm *.log *.lock",
+    "clean": "rm -rf bower_components node_modules output",
     "build": "pulp --then 'parcel app/index.html' build -I app"
   },
   "devDependencies": {
