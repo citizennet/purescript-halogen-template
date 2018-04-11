@@ -1,7 +1,7 @@
 {
-  "name": "purs-template",
+  "name": "purescript-halogen-template",
   "version": "0.0.1",
-  "repository": "git@github.com:citizennet/purs-template",
+  "repository": "git@github.com:citizennet/purescript-halogen-template",
   "author": "Thomas R. Honeyman <admin@thomashoneyman.com>",
   "license": "MIT",
   "private": true,
