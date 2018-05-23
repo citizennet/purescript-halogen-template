@@ -8,8 +8,10 @@
   "scripts": {
     "postinstall": "bower i --silent",
     "clean": "rm -rf bower_components node_modules output",
-    "build": "pulp --then 'parcel build app/index.html' build -I app",
-    "watch": "pulp --then 'parcel --no-hmr app/index.html' build -I app"
+    "build": "pulp --then 'parcel --no-hmr app/index-parcel.html' build",
+    "watch": "pulp -w --then 'parcel --no-hmr app/index-parcel.html' build",
+    "build-static": "pulp build --to dist/app.js",
+    "watch-static": "pulp -w build --to dist/app.js"
   },
   "devDependencies": {
     "parcel-bundler": "^1.8.1",
