@@ -3,6 +3,7 @@ module Component where
 import Prelude
 
 import Control.Monad.Aff.Class (class MonadAff)
+import Data.Const (Const)
 import Data.Maybe (Maybe(..))
 import Halogen as H
 import Halogen.HTML as HH
@@ -15,11 +16,14 @@ type Input = Unit
 
 type Message = Void
 
+type ChildSlot = Unit
+type ChildQuery = Const Void
+
 component :: ∀ eff m
   . MonadAff eff m
  => H.Component HH.HTML Query Input Message m
 component =
-  H.component
+  H.parentComponent
     { initialState
     , render
     , eval
@@ -30,9 +34,9 @@ component =
   initialState :: Input -> State
   initialState = const unit
 
-  render :: State -> H.ComponentHTML Query
+  render :: State -> H.ParentHTML Query ChildQuery ChildSlot m
   render st = HH.div_ []
 
-  eval :: Query ~> H.ComponentDSL State Query Void m
+  eval :: Query ~> H.ParentDSL State Query ChildQuery ChildSlot Message m
   eval = case _ of
     NoOp next -> pure next
