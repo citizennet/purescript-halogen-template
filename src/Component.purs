@@ -2,47 +2,37 @@ module Component where
 
 import Prelude
 
+import Control.Monad.Aff.Class (class MonadAff)
 import Data.Maybe (Maybe(..))
-
 import Halogen as H
 import Halogen.HTML as HH
-import Halogen.HTML.Events as HE
 
-data Query a = ToggleState a
+data Query a
+  = NoOp a
 
-type State = { on :: Boolean }
+type State = Unit
+type Input = Unit
 
-component :: ∀ m. H.Component HH.HTML Query Unit Void m
+type Message = Void
+
+component :: ∀ eff m
+  . MonadAff eff m
+ => H.Component HH.HTML Query Input Message m
 component =
   H.component
-    { initialState: const initialState
+    { initialState
     , render
     , eval
     , receiver: const Nothing
     }
   where
 
-  initialState :: State
-  initialState = { on: false }
+  initialState :: Input -> State
+  initialState = const unit
 
   render :: State -> H.ComponentHTML Query
-  render state =
-    HH.div_
-      [ HH.h1_
-          [ HH.text "Hello world!" ]
-      , HH.p_
-          [ HH.text "Toggle me if you dare:" ]
-      , HH.button
-          [ HE.onClick (HE.input_ ToggleState) ]
-          [ HH.text
-              if not state.on
-              then "Don't push me"
-              else "I said don't push me!"
-          ]
-      ]
+  render st = HH.div_ []
 
   eval :: Query ~> H.ComponentDSL State Query Void m
   eval = case _ of
-    ToggleState next -> do
-      H.modify (\state -> { on: not state.on })
-      pure next
+    NoOp next -> pure next
