@@ -31,7 +31,7 @@ component =
       [ HH.h1_
           [ HH.text "Hello world!" ]
       , HH.p_
-          [ HH.text "Why not toggle this button:" ]
+          [ HH.text "Toggle me if you dare:" ]
       , HH.button
           [ HE.onClick (HE.input_ ToggleState) ]
           [ HH.text
