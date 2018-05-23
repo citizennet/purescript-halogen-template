@@ -8,5 +8,6 @@ generated-docs/
 .psc*
 .purs*
 .psa*
-dist
+dist/*
+!dist/index.html
 *.lock
