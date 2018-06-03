@@ -69,6 +69,7 @@ component =
     HH.div_
     [ HH.slot unit Select.component selectInput (HE.input HandleSelect) ]
     where
+
     selectInput =
       { inputType: Select.TextInput
       , items: []
@@ -84,35 +85,27 @@ component =
     Remove item next -> do
       H.modify \s -> s { selections = filter ((/=) item) s.selections }
 
-      -- TODO: Evaluate our query which has been raised
-      -- ...
-      replaceItemsWith difference
+      -- TODO: The new items should be available to select
       -- ...
 
       pure next
 
     HandleSelect message next -> case message of
       Select.Emit query -> do
-        -- TODO: Evaluate our query which has been raised
-        -- ...
-        eval query
+        -- TODO: We should evaluate our own query, which has been raised
         -- ...
         pure next
 
       Select.Searched search -> do
         H.modify _ { items = Loading }
 
-        -- TODO: Update the Select component
-        -- ...
-        replaceItemsWith (const <<< const $ [])
+        -- TODO: There should be no items available to click
         -- ...
 
         newItems <- H.liftAff $ fetchItems search
         H.modify _ { items = fromEither newItems }
 
-        -- TODO: Update the Select component
-        -- ...
-        replaceItemsWith (const <<< const $ [])
+        -- TODO: The new items should be available to select
         -- ...
 
         pure next
@@ -120,10 +113,7 @@ component =
       Select.Selected item -> do
         H.modify \st -> st { selections = item : st.selections }
 
-        -- TODO: Update the Select component
-        -- ...
-        st <- H.get
-        replaceItemsWith difference
+        -- TODO: The new items should be available to select
         -- ...
 
         pure next
@@ -154,21 +144,21 @@ typeahead parentState selectState =
 
   renderInput =
     -- TODO: Ensure typing causes searches or key events
-    HH.input []
+    HH.input ( [] )
 
   renderContainer = case selectState.visibility of
     Select.Off -> HH.text ""
     Select.On ->
       HH.ul
       -- TODO: Ensure defaults are prevented
-      [ ]
+      ( [ ] )
       case null selectState.items of
         false ->
           renderItem `mapWithIndex` selectState.items
         _ ->
           [ HH.li
             -- TODO: Ensure clicking this button triggers a new empty
-            -- search, thereby fetching new data
+            -- search we can handle, thereby fetching new data
             [ ]
             [ HH.text "Fetch data again" ]
           ]
@@ -176,6 +166,7 @@ typeahead parentState selectState =
   renderItem ix item =
     HH.li
     ( -- TODO: Ensure items can be highlighted, register clicks, and more
+      id $
       case Just ix == selectState.highlightedIndex of
         true -> [ red ]
         _ -> [ ]
