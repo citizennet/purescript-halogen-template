@@ -83,7 +83,7 @@ component =
     ~> H.ParentDSL State Query (ChildQuery eff) ChildSlot Message m
   eval = case _ of
     Remove item next -> do
-      H.modify \s -> s { selections = filter ((/=) item) s.selections }
+      H.modify \st -> st { selections = filter ((/=) item) st.selections }
 
       -- TODO: The new items should be available to select
       -- ...
