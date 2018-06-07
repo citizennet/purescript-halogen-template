@@ -2,7 +2,7 @@ module Component where
 
 import Prelude
 
-import Control.Monad.Aff.Class (class MonadAff)
+import Effect.Aff.Class (class MonadAff)
 import Data.Const (Const)
 import Data.Maybe (Maybe(..))
 import Halogen as H
@@ -19,9 +19,7 @@ type Message = Void
 type ChildSlot = Unit
 type ChildQuery = Const Void
 
-component :: ∀ eff m
-  . MonadAff eff m
- => H.Component HH.HTML Query Input Message m
+component :: ∀ m. MonadAff m => H.Component HH.HTML Query Input Message m
 component =
   H.parentComponent
     { initialState
